@@ -1,0 +1,61 @@
+﻿@page
+@model Proiect_hotel.Pages.Reviews.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+<style>
+    body {
+        background-color: #B0C4DE;
+    }
+
+    nav a {
+        text-transform: uppercase;
+        color: #0056b3;
+        font-weight: bold;
+        margin: 0 10px;
+        text-decoration: none;
+    }
+
+        nav a:hover {
+            color: #004494;
+        }
+</style>
+
+<h1>Create</h1>
+
+<h4>Review</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Review.Mesaj" class="control-label"></label>
+                <input asp-for="Review.Mesaj" class="form-control" />
+                <span asp-validation-for="Review.Mesaj" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Review.Rate" class="control-label"></label>
+                <select asp-for="Review.Rate" class="form-control" asp-items="ViewBag.Rate"></select>
+                <span asp-validation-for="Review.Rate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Review.ClientID" class="control-label"></label>
+                <select asp-for="Review.ClientID" class ="form-control" asp-items="ViewBag.ClientID"></select>
+                <span asp-validation-for="Review.ClientID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

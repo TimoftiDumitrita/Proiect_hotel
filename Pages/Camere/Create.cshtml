@@ -1,0 +1,54 @@
+﻿@page
+@model Proiect_hotel.Pages.Camere.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+<style>
+    body {
+        background-color: #B0C4DE;
+    }
+    nav a {
+        text-transform: uppercase; 
+        color: #0056b3; 
+        font-weight: bold; /* Face textul bold */
+        margin: 0 10px; /* Adaugă spațiu între linkuri */
+        text-decoration: none; /* Îndepărtează sublinierea */
+    }
+
+        nav a:hover {
+            color: #004494; /* Schimbă culoarea la hover pentru feedback vizual */
+        }
+</style>
+<h1>Create</h1>
+
+<h4>Camera</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Camera.NumarCamera" class="control-label"></label>
+                <input asp-for="Camera.NumarCamera" class="form-control" />
+                <span asp-validation-for="Camera.NumarCamera" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Camera.Detalii" class="control-label"></label>
+                <input asp-for="Camera.Detalii" class="form-control" />
+                <span asp-validation-for="Camera.Detalii" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

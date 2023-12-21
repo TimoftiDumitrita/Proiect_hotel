@@ -1,0 +1,64 @@
+﻿@page
+@model Proiect_hotel.Pages.Rezervari_camera.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+<style>
+    body {
+        background-color: #B0C4DE;
+    }
+    nav a {
+        text-transform: uppercase;
+        color: #0056b3;
+        font-weight: bold;
+        margin: 0 10px;
+        text-decoration: none;
+    }
+
+        nav a:hover {
+            color: #004494;
+        }
+</style>
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Rezervare_camera[0].Camere)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rezervare_camera[0].Rezervare)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rezervare_camera[0].Nr_persoane)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Rezervare_camera) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Camere.NumarCamera)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rezervare.ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nr_persoane)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

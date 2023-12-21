@@ -1,0 +1,76 @@
+﻿@page
+@model Proiect_hotel.Pages.Preturi.EditModel
+@using Proiect_hotel.Models
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<style>
+    body {
+        background-color: #B0C4DE;
+    }
+    nav a {
+        text-transform: uppercase;
+        color: #0056b3;
+        font-weight: bold;
+        margin: 0 10px;
+        text-decoration: none;
+    }
+
+        nav a:hover {
+            color: #004494;
+        }
+</style>
+
+<h1>Edit</h1>
+
+<h4>Pret</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Pret.ID" />
+            <div class="form-group">
+                <label asp-for="Pret.StartValidity" class="control-label"></label>
+                <input asp-for="Pret.StartValidity" class="form-control" />
+                <span asp-validation-for="Pret.StartValidity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pret.EndValidity" class="control-label"></label>
+                <input asp-for="Pret.EndValidity" class="form-control" />
+                <span asp-validation-for="Pret.EndValidity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pret.Price_value" class="control-label"></label>
+                <input asp-for="Pret.Price_value" class="form-control" />
+                <span asp-validation-for="Pret.Price_value" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pret.Currency" class="control-label"></label>
+                <select asp-for="Pret.Currency" class="form-control" asp-items="Html.GetEnumSelectList<Currency>()"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pret.Nr_persoane" class="control-label"></label>
+                <input asp-for="Pret.Nr_persoane" class="form-control" />
+                <span asp-validation-for="Pret.Nr_persoane" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pret.CameraID" class="control-label">Numar camera</label>
+                <select asp-for="Pret.CameraID" class="form-control" asp-items="ViewBag.CameraID"></select>
+                <span asp-validation-for="Pret.CameraID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

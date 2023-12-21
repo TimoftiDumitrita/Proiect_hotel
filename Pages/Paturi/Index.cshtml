@@ -1,0 +1,73 @@
+﻿@page
+@model Proiect_hotel.Pages.Paturi.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+<style>
+    body {
+        background-color: #B0C4DE;
+    }
+    nav a {
+        text-transform: uppercase;
+        color: #0056b3;
+        font-weight: bold;
+        margin: 0 10px;
+        text-decoration: none;
+    }
+
+        nav a:hover {
+            color: #004494;
+        }
+</style>
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Pat[0].Lungime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pat[0].Latime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pat[0].TipPat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pat[0].Camere.NumarCamera)
+            </th>
+            
+           
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Pat) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lungime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Latime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipPat)
+            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Camere.NumarCamera)
+                </td>
+           
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

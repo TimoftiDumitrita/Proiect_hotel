@@ -1,0 +1,70 @@
+﻿@page
+@model Proiect_hotel.Pages.Rezervari.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+<style>
+    body {
+        background-color: #B0C4DE;
+    }
+    nav a {
+        text-transform: uppercase;
+        color: #0056b3;
+        font-weight: bold;
+        margin: 0 10px;
+        text-decoration: none;
+    }
+
+        nav a:hover {
+            color: #004494;
+        }
+</style>
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Rezervare[0].Data_start)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rezervare[0].Data_end)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rezervare[0].Pret_total)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rezervare[0].Client)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Rezervare) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data_start)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data_end)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pret_total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Client.ID)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

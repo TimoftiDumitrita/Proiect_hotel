@@ -1,0 +1,78 @@
+﻿@page
+@model Proiect_hotel.Pages.Camere.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    body {
+        background-color: #B0C4DE;
+    }
+    nav a {
+        text-transform: uppercase; /* Face literele mari */
+        color: #0056b3; /* Schimbă culoarea linkurilor */
+        font-weight: bold; /* Face textul bold */
+        margin: 0 10px; /* Adaugă spațiu între linkuri */
+        text-decoration: none; /* Îndepărtează sublinierea */
+    }
+
+        nav a:hover {
+            color: #004494; /* Schimbă culoarea la hover pentru feedback vizual */
+        }
+</style>
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+
+<form asp-page="./Index" method="get">
+    <p>
+        <input type="text" name="searchString" value="@Model.SearchString" placeholder="Cauta camera dupa numar" />
+        <input type="submit" value="Search" />
+        <a asp-page="./Index">Back to full List</a>
+    </p>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.WarningMessage))
+{
+    <div class="alert alert-warning">
+        @Model.WarningMessage
+    </div>
+}
+else if (Model.Camera.Any()) // Verifică dacă există elemente în listă pentru afișare
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Camera[0].NumarCamera)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Camera[0].Detalii)
+                </th>
+                <th>Operații</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Camera)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NumarCamera)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Detalii)
+                    </td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                        <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                        <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

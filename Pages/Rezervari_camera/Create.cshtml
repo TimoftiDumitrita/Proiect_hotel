@@ -1,0 +1,61 @@
+﻿@page
+@model Proiect_hotel.Pages.Rezervari_camera.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+<style>
+    body {
+        background-color: #B0C4DE;
+    }
+    nav a {
+        text-transform: uppercase;
+        color: #0056b3;
+        font-weight: bold;
+        margin: 0 10px;
+        text-decoration: none;
+    }
+
+        nav a:hover {
+            color: #004494;
+        }
+</style>
+
+<h1>Create</h1>
+
+<h4>Rezervare_camera</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Rezervare_camera.CameraID" class="control-label">Numar Camera</label>
+                <select asp-for="Rezervare_camera.CameraID" class="form-control" asp-items="ViewBag.CameraID"></select>
+                <span asp-validation-for="Rezervare_camera.CameraID" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Rezervare_camera.RezervareID" class="control-label">Rezervare</label>
+                <select asp-for="Rezervare_camera.RezervareID" class="form-control" asp-items="ViewBag.RezervareID"></select>
+                <span asp-validation-for="Rezervare_camera.RezervareID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rezervare_camera.Nr_persoane" class="control-label"></label>
+                <input asp-for="Rezervare_camera.Nr_persoane" class="form-control" />
+                <span asp-validation-for="Rezervare_camera.Nr_persoane" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
