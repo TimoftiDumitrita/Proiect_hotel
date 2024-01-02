@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using Proiect_hotel.Models;
 
 namespace Proiect_hotel.Pages.Rezervari
 {
+    [Authorize(Roles ="Admin")]
     public class DeleteModel : PageModel
     {
         private readonly Proiect_hotel.Data.Proiect_hotelContext _context;
@@ -53,9 +55,17 @@ namespace Proiect_hotel.Pages.Rezervari
             if (rezervare != null)
             {
                 Rezervare = rezervare;
-                _context.Rezervare.Remove(Rezervare);
-                await _context.SaveChangesAsync();
-            }
+                if (User.IsInRole("Admin"))
+                {
+                    _context.Rezervare.Remove(Rezervare);
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Access denied. Contactati administratorul pentru a sterge rezervarea la numarul de telefon: 0727990146";
+                }
+            
+        }
 
             return RedirectToPage("./Index");
         }

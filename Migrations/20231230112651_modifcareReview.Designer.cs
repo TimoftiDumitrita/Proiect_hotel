@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Proiect_hotel.Data;
 
@@ -11,9 +12,10 @@ using Proiect_hotel.Data;
 namespace Proiect_hotel.Migrations
 {
     [DbContext(typeof(Proiect_hotelContext))]
-    partial class Proiect_hotelContextModelSnapshot : ModelSnapshot
+    [Migration("20231230112651_modifcareReview")]
+    partial class modifcareReview
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

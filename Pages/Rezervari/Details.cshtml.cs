@@ -28,7 +28,9 @@ namespace Proiect_hotel.Pages.Rezervari
                 return NotFound();
             }
 
-            var rezervare = await _context.Rezervare.FirstOrDefaultAsync(m => m.ID == id);
+            var rezervare = await _context.Rezervare
+                .Include(r => r.Client)
+                .FirstOrDefaultAsync(m => m.ID == id);
             if (rezervare == null)
             {
                 return NotFound();

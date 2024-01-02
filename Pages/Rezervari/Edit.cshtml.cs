@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,6 +12,7 @@ using Proiect_hotel.Models;
 
 namespace Proiect_hotel.Pages.Rezervari
 {
+   
     public class EditModel : PageModel
     {
         private readonly Proiect_hotel.Data.Proiect_hotelContext _context;
@@ -30,13 +32,27 @@ namespace Proiect_hotel.Pages.Rezervari
                 return NotFound();
             }
 
-            var rezervare =  await _context.Rezervare.FirstOrDefaultAsync(m => m.ID == id);
+            var rezervare = await _context.Rezervare
+                .Include(r => r.Client)  // Asigurați-vă că se încarcă și informațiile despre client
+                .FirstOrDefaultAsync(m => m.ID == id);
+
             if (rezervare == null)
             {
                 return NotFound();
             }
+
+            // Verificați dacă utilizatorul curent este autorul rezervării
+            var currentUser = await _context.Client.FirstOrDefaultAsync(c => c.Email == User.Identity.Name);
+
+            if (currentUser == null || rezervare.ClientID != currentUser.ID)
+            {
+                // Utilizatorul curent nu are permisiunea de a modifica această rezervare
+                return Forbid();
+            }
+
             Rezervare = rezervare;
-           ViewData["ClientID"] = new SelectList(_context.Set<Client>(), "ID", "ID");
+            ViewData["ClientID"] = new SelectList(_context.Set<Client>(), "ID", "ID");
+            ViewData["ClientID"] = new SelectList(_context.Client, "ID", "FullName", Rezervare.ClientID);
             return Page();
         }
 
@@ -49,25 +65,45 @@ namespace Proiect_hotel.Pages.Rezervari
                 return Page();
             }
 
-            _context.Attach(Rezervare).State = EntityState.Modified;
+           
+            var rezervareToUpdate = await _context.Rezervare
+                .Include(r => r.Client)
+                .FirstOrDefaultAsync(m => m.ID == Rezervare.ID);
 
-            try
+            
+            if (rezervareToUpdate == null)
             {
+                return NotFound();
+            }
+
+            
+            var client = await _context.Client.FirstOrDefaultAsync(c => c.ID == Rezervare.ClientID);
+
+           
+            if (client != null)
+            {
+                
+                rezervareToUpdate.Data_start = Rezervare.Data_start;
+                rezervareToUpdate.Data_end = Rezervare.Data_end;
+                rezervareToUpdate.Pret_total = Rezervare.Pret_total;
+
+                // Setează ClientID în rezervare
+                rezervareToUpdate.ClientID = Rezervare.ClientID;
+
+                // Atașează și marchează entitatea ca modificată
+                _context.Attach(rezervareToUpdate).State = EntityState.Modified;
+
+                // Salvează modificările în baza de date
                 await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RezervareExists(Rezervare.ID))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
 
-            return RedirectToPage("./Index");
+                return RedirectToPage("./Index");
+            }
+            else
+            {
+                // Clientul nu a fost găsit, deci întoarce o eroare
+                ModelState.AddModelError(string.Empty, "Client not found.");
+                return Page();
+            }
         }
 
         private bool RezervareExists(int id)

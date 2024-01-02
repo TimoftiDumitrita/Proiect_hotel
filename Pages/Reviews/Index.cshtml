@@ -5,7 +5,10 @@
     ViewData["Title"] = "Index";
 }
 <style>
-    background-color: #B0C4DE;
+    body {
+        background-color: #B0C4DE;
+    }
+
     nav a {
         text-transform: uppercase;
         color: #0056b3;
@@ -14,9 +17,9 @@
         text-decoration: none;
     }
 
-    nav a:hover {
-        color: #004494;
-    }
+        nav a:hover {
+            color: #004494;
+        }
 </style>
 
 <h1>Index</h1>
@@ -34,9 +37,9 @@
                 @Html.DisplayNameFor(model => model.Review[0].Rate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Review[0].Client)
+                User
             </th>
-            <th></th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -48,9 +51,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Rate)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Client.ID)
-            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Client.Email)
+                </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |

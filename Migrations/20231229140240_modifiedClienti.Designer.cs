@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Proiect_hotel.Data;
 
@@ -11,9 +12,10 @@ using Proiect_hotel.Data;
 namespace Proiect_hotel.Migrations
 {
     [DbContext(typeof(Proiect_hotelContext))]
-    partial class Proiect_hotelContextModelSnapshot : ModelSnapshot
+    [Migration("20231229140240_modifiedClienti")]
+    partial class modifiedClienti
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,58 +23,6 @@ namespace Proiect_hotel.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("IdentityUser");
-                });
 
             modelBuilder.Entity("Proiect_hotel.Models.Camera", b =>
                 {
@@ -104,9 +54,6 @@ namespace Proiect_hotel.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("IdentityUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Nr_telefon")
                         .HasColumnType("nvarchar(max)");
 
@@ -117,8 +64,6 @@ namespace Proiect_hotel.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("IdentityUserId");
 
                     b.ToTable("Client");
                 });
@@ -195,9 +140,10 @@ namespace Proiect_hotel.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Mesaj")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Rate")
+                    b.Property<int>("Rate")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -215,7 +161,7 @@ namespace Proiect_hotel.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<int?>("ClientID")
+                    b.Property<int>("ClientID")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Data_end")
@@ -236,10 +182,10 @@ namespace Proiect_hotel.Migrations
 
             modelBuilder.Entity("Proiect_hotel.Models.Rezervare_camera", b =>
                 {
-                    b.Property<int?>("CameraID")
+                    b.Property<int>("CameraID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RezervareID")
+                    b.Property<int>("RezervareID")
                         .HasColumnType("int");
 
                     b.Property<int>("Nr_persoane")
@@ -250,15 +196,6 @@ namespace Proiect_hotel.Migrations
                     b.HasIndex("RezervareID");
 
                     b.ToTable("Rezervare_camera");
-                });
-
-            modelBuilder.Entity("Proiect_hotel.Models.Client", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
-                        .WithMany()
-                        .HasForeignKey("IdentityUserId");
-
-                    b.Navigation("IdentityUser");
                 });
 
             modelBuilder.Entity("Proiect_hotel.Models.Pat", b =>
@@ -294,7 +231,9 @@ namespace Proiect_hotel.Migrations
                 {
                     b.HasOne("Proiect_hotel.Models.Client", "Client")
                         .WithMany()
-                        .HasForeignKey("ClientID");
+                        .HasForeignKey("ClientID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Client");
                 });

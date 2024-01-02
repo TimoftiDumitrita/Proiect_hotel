@@ -5,7 +5,10 @@
     ViewData["Title"] = "Edit";
 }
 <style>
-    background-color: #B0C4DE;
+    body {
+        background-color: #B0C4DE;
+    }
+
     nav a {
         text-transform: uppercase;
         color: #0056b3;
@@ -14,9 +17,9 @@
         text-decoration: none;
     }
 
-    nav a:hover {
-        color: #004494;
-    }
+        nav a:hover {
+            color: #004494;
+        }
 </style>
 
 <h1>Edit</h1>
@@ -35,14 +38,10 @@
             </div>
             <div class="form-group">
                 <label asp-for="Review.Rate" class="control-label"></label>
-                <select asp-for="Review.Rate" class="form-control"></select>
+                <select asp-for="Review.Rate" class="form-control" asp-items="@Model.RateList"></select>
                 <span asp-validation-for="Review.Rate" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Review.ClientID" class="control-label"></label>
-                <select asp-for="Review.ClientID" class="form-control" asp-items="ViewBag.ClientId"></select>
-                <span asp-validation-for="Review.ClientID" class="text-danger"></span>
-            </div>
+            
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

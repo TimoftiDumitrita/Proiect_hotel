@@ -2,16 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Proiect_hotel.Data;
 using Proiect_hotel.Models;
 
 namespace Proiect_hotel.Pages.Reviews
 {
+    [Authorize]
+
     public class CreateModel : PageModel
     {
+        
         private readonly Proiect_hotel.Data.Proiect_hotelContext _context;
 
         public CreateModel(Proiect_hotel.Data.Proiect_hotelContext context)
@@ -39,9 +44,22 @@ namespace Proiect_hotel.Pages.Reviews
             {
                 return Page();
             }
+            var userEmail = User.Identity.Name;
+            var client = await _context.Client.FirstOrDefaultAsync(c => c.Email == userEmail);
 
-            _context.Review.Add(Review);
-            await _context.SaveChangesAsync();
+            if (client != null)
+            {
+                
+                Review.ClientID = client.ID;
+                _context.Review.Add(Review);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                
+                ModelState.AddModelError(string.Empty, "Client not found.");
+                return Page();
+            }
 
             return RedirectToPage("./Index");
         }

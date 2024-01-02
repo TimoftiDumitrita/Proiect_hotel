@@ -16,8 +16,8 @@ namespace Proiect_hotel.Models
     {
         public int Id { get; set; }
        
-        public string Mesaj {  get; set; }
-        public Rate Rate {  get; set; }
+        public string? Mesaj {  get; set; }
+        public Rate? Rate {  get; set; }
         public int ClientID { get; set; }
         public Client? Client { get; set; }
     }

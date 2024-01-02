@@ -283,3 +283,4 @@ C:\Dumi's Space\Facultate\Anul III, Semestrul 1\Medii de programare\Proiect_hote
 C:\Dumi's Space\Facultate\Anul III, Semestrul 1\Medii de programare\Proiect_hotel\bin\Debug\net6.0\Microsoft.Extensions.Identity.Core.dll
 C:\Dumi's Space\Facultate\Anul III, Semestrul 1\Medii de programare\Proiect_hotel\bin\Debug\net6.0\Microsoft.Extensions.Identity.Stores.dll
 C:\Dumi's Space\Facultate\Anul III, Semestrul 1\Medii de programare\Proiect_hotel\obj\Debug\net6.0\Proiect_hotel.MvcApplicationPartsAssemblyInfo.cs
+C:\Dumi's Space\Facultate\Anul III, Semestrul 1\Medii de programare\Proiect_hotel\obj\Debug\net6.0\Proiect_hotel.sourcelink.json

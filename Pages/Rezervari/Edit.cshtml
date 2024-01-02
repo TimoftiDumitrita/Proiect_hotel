@@ -45,11 +45,7 @@
                 <input asp-for="Rezervare.Pret_total" class="form-control" />
                 <span asp-validation-for="Rezervare.Pret_total" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Rezervare.ClientID" class="control-label"></label>
-                <select asp-for="Rezervare.ClientID" class="form-control" asp-items="ViewBag.ClientID"></select>
-                <span asp-validation-for="Rezervare.ClientID" class="text-danger"></span>
-            </div>
+           
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
