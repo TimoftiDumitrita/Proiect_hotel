@@ -22,6 +22,7 @@ namespace Proiect_hotel.Pages.Reviews
         }
 
         public IList<Review> Review { get;set; } = default!;
+        public double AverageRating { get; set; }
 
         public async Task OnGetAsync()
         {
@@ -30,6 +31,10 @@ namespace Proiect_hotel.Pages.Reviews
                 Review = await _context.Review
                      .Include(r => r.Client)
                      .ToListAsync();
+            }
+            if (Review.Any())
+            {
+                AverageRating = Review.Average(r => (int)r.Rate);
             }
         }
     }

@@ -33,7 +33,7 @@ namespace Proiect_hotel.Pages.Rezervari
             }
 
             var rezervare = await _context.Rezervare
-                .Include(r => r.Client)  // Asigurați-vă că se încarcă și informațiile despre client
+                .Include(r => r.Client)
                 .FirstOrDefaultAsync(m => m.ID == id);
 
             if (rezervare == null)
@@ -41,16 +41,18 @@ namespace Proiect_hotel.Pages.Rezervari
                 return NotFound();
             }
 
-            // Verificați dacă utilizatorul curent este autorul rezervării
+            
+            Rezervare = rezervare;
+
+            
             var currentUser = await _context.Client.FirstOrDefaultAsync(c => c.Email == User.Identity.Name);
 
-            if (currentUser == null || rezervare.ClientID != currentUser.ID)
+           
+            if (currentUser == null || Rezervare.ClientID != currentUser.ID)
             {
-                // Utilizatorul curent nu are permisiunea de a modifica această rezervare
                 return Forbid();
             }
 
-            Rezervare = rezervare;
             ViewData["ClientID"] = new SelectList(_context.Set<Client>(), "ID", "ID");
             ViewData["ClientID"] = new SelectList(_context.Client, "ID", "FullName", Rezervare.ClientID);
             return Page();

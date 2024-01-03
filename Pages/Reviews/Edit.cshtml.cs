@@ -12,7 +12,7 @@ using Proiect_hotel.Models;
 
 namespace Proiect_hotel.Pages.Reviews
 {
-    [Authorize]
+   
     public class EditModel : PageModel
     {
         private readonly Proiect_hotel.Data.Proiect_hotelContext _context;
@@ -33,17 +33,25 @@ namespace Proiect_hotel.Pages.Reviews
                 return NotFound();
             }
 
-            var review =  await _context.Review.FirstOrDefaultAsync(m => m.Id == id);
+            var review = await _context.Review.FirstOrDefaultAsync(m => m.Id == id);
+
             if (review == null)
             {
                 return NotFound();
             }
+
+            var userEmail = User.Identity.Name;
+            var client = await _context.Client.FirstOrDefaultAsync(c => c.Email == userEmail);
+
+            if (client == null || review.ClientID != client.ID)
+            {
+                // Utilizatorul nu are permisiunea de a edita această recenzie
+                // Puteți redirecționa către o pagină de eroare sau afișa un mesaj corespunzător
+                return Forbid();
+            }
+
             Review = review;
             RateList = new SelectList(Enum.GetValues(typeof(Rate)).Cast<Rate>(), Review.Rate);
-            Review = await _context.Review.FirstOrDefaultAsync(m => m.Id == id);
-
-
-
             return Page();
         }
 
@@ -53,35 +61,46 @@ namespace Proiect_hotel.Pages.Reviews
         {
             if (!ModelState.IsValid)
             {
-                
-                return Page();
-            }
-            if (Review.Client == null)
-            {
-                ModelState.AddModelError("Review.Client.ID", "Client information is missing.");
                 return Page();
             }
 
-            var existingClient = await _context.Client.FindAsync(Review.Client.ID);
+            var userEmail = User.Identity.Name;
+           
+
+            if (string.IsNullOrEmpty(userEmail))
+            {
+                return Challenge();
+            }
+            var client = await _context.Client.FirstOrDefaultAsync(c => c.Email == userEmail);
+
+            /*if (client == null || Review.ClientID != client.ID)
+            {
+                
+                return Forbid();
+            } */
+
+            
+            var existingClient = await _context.Client.FindAsync(Review.ClientID);
             if (existingClient == null)
             {
-                ModelState.AddModelError("Review.Client.ID", "Client with the specified ID does not exist.");
+                ModelState.AddModelError("Review.ClientID", "Client with the specified ID does not exist.");
                 return Page();
             }
 
+            
             if (Enum.TryParse(typeof(Rate), Request.Form["Review.Rate"], out var rate))
             {
                 Review.Rate = (Rate)rate;
             }
             else
             {
-                
                 ModelState.AddModelError("Review.Rate", "Invalid rate value");
                 return Page();
             }
 
             try
             {
+                
                 _context.Entry(Review).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
@@ -96,8 +115,9 @@ namespace Proiect_hotel.Pages.Reviews
                     throw;
                 }
             }
-            Review = await _context.Review.FirstOrDefaultAsync(m => m.Id == Review.Id);
 
+            
+            Review = await _context.Review.FirstOrDefaultAsync(m => m.Id == Review.Id);
             return RedirectToPage("./Index");
         }
 

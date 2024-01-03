@@ -37,10 +37,17 @@ namespace Proiect_hotel.Pages.Reviews
             {
                 return NotFound();
             }
-            else 
+
+            var userEmail = User.Identity.Name;
+            var client = await _context.Client.FirstOrDefaultAsync(c => c.Email == userEmail);
+
+            if (client == null || review.ClientID != client.ID)
             {
-                Review = review;
+               
+                return Forbid();
             }
+
+            Review = review;
             return Page();
         }
 
@@ -50,10 +57,20 @@ namespace Proiect_hotel.Pages.Reviews
             {
                 return NotFound();
             }
+
             var review = await _context.Review.FindAsync(id);
 
             if (review != null)
             {
+                var userEmail = User.Identity.Name;
+                var client = await _context.Client.FirstOrDefaultAsync(c => c.Email == userEmail);
+
+                if (client == null || (review.ClientID != client.ID && !User.IsInRole("Admin")))
+                {
+                   
+                    return Forbid();
+                }
+
                 Review = review;
                 _context.Review.Remove(Review);
                 await _context.SaveChangesAsync();
