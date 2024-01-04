@@ -51,6 +51,19 @@ namespace Proiect_hotel.Pages.Rezervari
             {
                 Rezervare.ClientID = client.ID;
 
+                bool rezervareExista = await _context.Rezervare
+            .AnyAsync(r =>
+                r.ClientID == client.ID &&
+                ((Rezervare.Data_start >= r.Data_start && Rezervare.Data_start < r.Data_end) ||
+                 (Rezervare.Data_end > r.Data_start && Rezervare.Data_end <= r.Data_end) ||
+                 (Rezervare.Data_start <= r.Data_start && Rezervare.Data_end >= r.Data_end)));
+
+                if (rezervareExista)
+                {
+                    ModelState.AddModelError(string.Empty, "Există deja o rezervare pentru această perioadă.");
+                    return Page();
+                }
+
                 TimeSpan diferentaInZile = Rezervare.Data_end - Rezervare.Data_start;
                 Rezervare.Pret_total = (int)Math.Ceiling(diferentaInZile.TotalDays) * 200;
 
