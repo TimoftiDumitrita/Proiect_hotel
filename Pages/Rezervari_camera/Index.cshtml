@@ -54,9 +54,9 @@
                 @Html.DisplayFor(modelItem => item.Nr_persoane)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    <a asp-page="./Edit" asp-route-id="@item.CameraID">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.CameraID">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.CameraID">Delete</a>
             </td>
         </tr>
 }

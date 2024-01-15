@@ -38,7 +38,7 @@ namespace Proiect_hotel.Pages.Rezervari_camera
                 return NotFound();
             }
             Rezervare_camera = rezervare_camera;
-           ViewData["CameraID"] = new SelectList(_context.Camera, "ID", "ID");
+           ViewData["CameraID"] = new SelectList(_context.Camera, "ID", "NumarCamera");
            ViewData["RezervareID"] = new SelectList(_context.Rezervare, "ID", "ID");
             return Page();
         }
@@ -47,8 +47,8 @@ namespace Proiect_hotel.Pages.Rezervari_camera
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
+            if(!ModelState.IsValid)
+    {
                 return Page();
             }
 

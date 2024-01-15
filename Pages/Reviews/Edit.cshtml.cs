@@ -45,8 +45,6 @@ namespace Proiect_hotel.Pages.Reviews
 
             if (client == null || review.ClientID != client.ID)
             {
-                // Utilizatorul nu are permisiunea de a edita această recenzie
-                // Puteți redirecționa către o pagină de eroare sau afișa un mesaj corespunzător
                 return Forbid();
             }
 

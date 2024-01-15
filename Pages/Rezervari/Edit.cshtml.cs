@@ -89,20 +89,20 @@ namespace Proiect_hotel.Pages.Rezervari
                 rezervareToUpdate.Data_end = Rezervare.Data_end;
                 rezervareToUpdate.Pret_total = Rezervare.Pret_total;
 
-                // Setează ClientID în rezervare
+               
                 rezervareToUpdate.ClientID = Rezervare.ClientID;
 
-                // Atașează și marchează entitatea ca modificată
+               
                 _context.Attach(rezervareToUpdate).State = EntityState.Modified;
 
-                // Salvează modificările în baza de date
+                
                 await _context.SaveChangesAsync();
 
                 return RedirectToPage("./Index");
             }
             else
             {
-                // Clientul nu a fost găsit, deci întoarce o eroare
+               
                 ModelState.AddModelError(string.Empty, "Client not found.");
                 return Page();
             }

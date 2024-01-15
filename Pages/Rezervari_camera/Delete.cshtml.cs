@@ -50,16 +50,25 @@ namespace Proiect_hotel.Pages.Rezervari_camera
             {
                 return NotFound();
             }
-            var rezervare_camera = await _context.Rezervare_camera.FindAsync(id);
 
-            if (rezervare_camera != null)
+            var rezervare_camera = await _context.Rezervare_camera.FirstOrDefaultAsync(m => m.CameraID == id);
+
+            if (rezervare_camera == null)
             {
-                Rezervare_camera = rezervare_camera;
-                _context.Rezervare_camera.Remove(Rezervare_camera);
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
 
-            return RedirectToPage("./Index");
+            try
+            {
+                _context.Rezervare_camera.Remove(rezervare_camera);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
+            catch (DbUpdateException ex)
+            {
+                // Log or handle the exception appropriately
+                return RedirectToPage("/Error");
+            }
         }
     }
 }

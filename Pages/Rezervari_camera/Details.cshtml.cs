@@ -28,15 +28,20 @@ namespace Proiect_hotel.Pages.Rezervari_camera
                 return NotFound();
             }
 
-            var rezervare_camera = await _context.Rezervare_camera.FirstOrDefaultAsync(m => m.CameraID == id);
+            var rezervare_camera = await _context.Rezervare_camera
+                .Include(rc => rc.Camere)
+                .Include(rc => rc.Rezervare)
+                .FirstOrDefaultAsync(m => m.CameraID == id);
+
             if (rezervare_camera == null)
             {
                 return NotFound();
             }
-            else 
+            else
             {
                 Rezervare_camera = rezervare_camera;
             }
+
             return Page();
         }
     }

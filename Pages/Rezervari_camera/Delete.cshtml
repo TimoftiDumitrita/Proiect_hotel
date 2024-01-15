@@ -47,10 +47,9 @@
             @Html.DisplayFor(model => model.Rezervare_camera.Nr_persoane)
         </dd>
     </dl>
-    
+
     <form method="post">
         <input type="hidden" asp-for="Rezervare_camera.CameraID" />
-        <input type="hidden" asp-for="Rezervare_camera.RezervareID" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-page="./Index">Back to List</a>
     </form>
